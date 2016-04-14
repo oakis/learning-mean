@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Learning MEAN</title>
+</head>
+<body ng-app="app">
+	<header>
+		<h1>CRUD with MEAN</h1>
+		<nav>
+			<a href="/">List</a> <a href="/admin">Admin</a>
+		</nav>
+	</header>
+	<div class="container" ng-controller="listItems">
+		<h2>Delete Posts</h2>
+		<div class="posts-container" ng-repeat="post in posts">
+			<div class="post">
+				<p ng-controller="delItems">{{post.heading}} <a href="" ng-click=delItem(post._id)>Delete</a></p>
+			</div>
+		</div>
+	</div>
+	<div class="container" ng-controller="addItems">
+		<h2>Add Posts</h2>
+		<form id="addForm">
+			<label>Heading:</label>
+			<input type="text" ng-model="heading">
+			<label>Author:</label>
+			<input type="text" ng-model="author">
+			<label>Message:</label>
+			<textarea ng-model="text"></textarea>
+			<label>Tags: (Separate with comma)</label>
+			<input type="text" ng-model="tags">
+			<label>Category:</label>
+			<input type="text" ng-model="category">
+			<input type="hidden" ng-model="date">
+			<input type="submit" ng-click="newItem()">
+		</form>
+	</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+<script src="app/app.js"></script>
+</body>
+</html>
