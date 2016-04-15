@@ -17,8 +17,8 @@
 				<h2>{{post.heading}}</h2>
 				<em>{{post.date}} - {{post.author}}</em>
 				<p>{{post.text}}</p>
-				<div class="post-tags" ng-repeat="tag in post.tags">
-					<a href="">{{tag}}</a>
+				<div class="post-tags">
+					<span ng-repeat="tag in post.tags"><a href="">{{tag}}</a></span>
 				</div>
 				<div class="post-category">{{post.category}}</div>
 			</div>

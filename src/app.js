@@ -20,6 +20,7 @@ require('./db');
 app.use(express.static('public'));
 app.use('/app', express.static('app'));
 app.use(parser.json());
+app.use(parser.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 
 app.use('/api', api);
