@@ -31,7 +31,8 @@
 				<h2>{{post.heading}}</h2>
 				<span class="post-category">Filed under: <a href="" ng-click="listByCat(post.category)">{{post.category}}</a></span>
 				<p ng-bind-html="post.text">{{post.text}}</p>
-				<em class="post-by">Posted {{post.date}} by {{post.author}}</em>
+				<p class="post-last-updated" ng-show="post.dateUpdated!=undefined"><em>Last updated: {{post.dateUpdated}}</em></p>
+				<p class="post-by">Posted {{post.date}} by {{post.author}}</p>
 				<div class="post-tags">
 					Tags:
 					<span ng-repeat="tag in post.tags"><button ng-click="listByTag(tag)">{{tag}}</button></span>
