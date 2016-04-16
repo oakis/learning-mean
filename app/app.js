@@ -37,7 +37,17 @@ app.controller('listItems', function ($scope, $http) {
 			url: '/api/?sortBy='+id
 		}).then(function (response) {
 	    $scope.posts = response.data;
-	    console.log(response.data);
+	  }, function (response) {
+	    console.log(response);
+	  });
+  }
+  // Search function
+  $scope.postSearch = function (id) {
+  	$http({
+			method: 'GET',
+			url: '/api/?search='+id
+		}).then(function (response) {
+	    $scope.posts = response.data;
 	  }, function (response) {
 	    console.log(response);
 	  });
@@ -83,7 +93,6 @@ app.controller('delItems', function ($scope, $http) {
 				params: { _id: id }
 			}).then(function (response) {
 		    console.log('Success deleting from DB!')
-		    console.log(response.data)
 		  }, function (response) {
 		    console.log(response);
 		  });

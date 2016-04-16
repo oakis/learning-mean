@@ -37,6 +37,23 @@ router.get('/', function (req, res, next) {
 	}
 });
 
+// Search items
+router.get('/', function (req, res, next) {
+	if (req.query.search != undefined) {
+		var searchQuery = new RegExp(req.query.search, 'ig');
+		console.log(searchQuery)
+		crud.find({ $or: [ {heading: searchQuery}, {author: searchQuery}, {text: searchQuery} ] }).exec(function (err, posts) {
+			if(err) {
+				return console.error('Error: ' + err);
+			} else {
+				res.json(posts);
+			}
+		});
+	} else {
+		next();
+	}
+});
+
 // List items
 router.get('/', function (req, res, next) {
 	crud.find(function(err, posts){
@@ -59,7 +76,6 @@ function checkEmpty (data) {
 
 // Create item
 router.post('/', function (req, res) {
-	console.log('Add item: '+req.body);
 	crud.create({ 
 		author: req.body.author,
 		date: moment().format('MMMM Do YYYY, h:mm:ss a'),
@@ -76,7 +92,6 @@ router.post('/', function (req, res) {
 
 // Delete item
 router.delete('/', function (req, res) {
-	console.log('Delete item: '+req.query.del_id);
 	crud.remove({ _id: req.query._id }, function (err, posts) {
 	  if (err) return err;
 	  else res.json(posts);
@@ -85,7 +100,6 @@ router.delete('/', function (req, res) {
 
 // Update item
 router.put('/', function (req, res) {
-	console.log('Update item: '+req.query._id);
 	crud.update({ _id: req.query._id },
 		{$set:{ 
 			author: req.body.author,
