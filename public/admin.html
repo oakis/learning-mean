@@ -24,30 +24,30 @@
 				<th>Text</th>
 				<th></th>
 			</tr>
-			<tr ng-repeat="post in posts" ng-controller="editItems">
 			<form id="editForm">
+			<tr ng-repeat="post in posts" ng-controller="updateItems">
 				<td><input type="text" value={{post.heading}} ng-model="post.heading"></td>
-				<td><input type="text" value={{post.author}} ng-model="post.author"></td>
-				<td><input type="text" value={{post.date}} ng-model="post.date"></td>
+				<td><input type="text" value={{post.author}} name="post.author"></td>
+				<td><input type="hidden" value={{post.date}} ng-model="post.date">{{post.date}}</td>
 				<td><input type="hidden" value={{post.dateUpdated}} ng-model="post.dateUpdated">{{post.dateUpdated}}</td>
 				<td><input type="text" value={{post.tags}} ng-model="post.tags"></td>
 				<td><input type="text" value={{post.category}} ng-model="post.category"></td>
 				<td><textarea ng-model="post.text">{{post.text}}</textarea></td>
 				<td><input type="hidden" value={{post._id}} ng-model="post._id"><input type="submit" ng-click="saveItem()" value="Save"></td>
-			</form>
 			</tr>
+			</form>
 		</table>
 	</div>
-	<div class="container">
+	<div class="container" ng-controller="delItems">
 		<h2>Delete Posts</h2>
 		<table>
 			<tr>
 				<th>Heading</th>
 				<th>Delete</th>
 			</tr>
-			<tr ng-repeat="post in posts" ng-controller="delItems">
-				<td>{{post.heading}}<input type="hidden" value={{post._id}} ng-model="post._id"></td>
-				<td><input type="submit" ng-click="delItem()" value="Delete"></td>
+			<tr ng-repeat="post in posts">
+				<td>{{post.heading}}<input type="hidden" value={{post._id}} ng-model="id"></td>
+				<td><input type="submit" ng-click="delItem(post._id)" value="Delete"></td>
 			</tr>
 		</table>
 	</div>

@@ -2,15 +2,46 @@
 
 var app = angular.module('app', []);
 
+function checkEmpty (data) {
+	if (!Array.isArray(data))
+		data = data.split(',');
+	return data;
+}
+
 app.controller('listItems', function ($scope, $http) {
+	$scope.posts = [];
+
 	$http({
 		method: 'GET',
 		url: '/api'
-	}).then(function successCallback(response) {
+	}).then(function (response) {
     $scope.posts = response.data;
-  }, function errorCallback(response) {
+  }, function (response) {
     console.log(response);
   });
+  // List by TAG
+  $scope.listByTag = function (tag) {
+  	$http({
+			method: 'GET',
+			url: '/api/?tag='+tag
+		}).then(function (response) {
+	    $scope.posts = response.data;
+	  }, function (response) {
+	    console.log(response);
+	  });
+  }
+  // Sort by anything
+  $scope.sortBy = function (id) {
+  	$http({
+			method: 'GET',
+			url: '/api/?sortBy='+id
+		}).then(function (response) {
+	    $scope.posts = response.data;
+	    console.log(response.data);
+	  }, function (response) {
+	    console.log(response);
+	  });
+  }
 });
 
 app.controller('addItems', function ($scope, $http) {
@@ -29,10 +60,11 @@ app.controller('addItems', function ($scope, $http) {
 			method: 'POST',
 			url: '/api',
 			data: newEntry
-		}).then(function successCallback(response) {
+		}).then(function (response) {
 	    console.log('Success adding to DB!')
 	    alert('Success!');
-	  }, function errorCallback(response) {
+	    $scope.posts = response.data;
+	  }, function (response) {
 	    console.log(response);
 	  });
 	  document.getElementById("addForm").reset();
@@ -41,16 +73,18 @@ app.controller('addItems', function ($scope, $http) {
 });
 
 app.controller('delItems', function ($scope, $http) {
-	
-	$scope.delItem = function () {
-		if (window.confirm('Are you sure about deleting this post? (ID: '+$scope.post._id+')')) {
+
+	$scope.delItem = function (id) {
+		console.log('delItem: '+id)
+		if (window.confirm('Are you sure about deleting this post? (ID: '+id+')')) {
 			$http({
 				method: 'delete',
 				url: '/api',
-				params: { _id: $scope.post._id }
-			}).then(function successCallback(response) {
+				params: { _id: id }
+			}).then(function (response) {
 		    console.log('Success deleting from DB!')
-		  }, function errorCallback(response) {
+		    console.log(response.data)
+		  }, function (response) {
 		    console.log(response);
 		  });
 		}
@@ -58,15 +92,16 @@ app.controller('delItems', function ($scope, $http) {
 
 });
 
-app.controller('editItems', function ($scope, $http) {
+app.controller('updateItems', function ($scope, $http) {
+
 	$scope.saveItem = function () {
 		var updateEntry = {
 			author: $scope.post.author,
 			date: $scope.post.date,
-			dateUpdated: $scope.post.dateUpdated,
+			dateUpdated: '',
 			heading: $scope.post.heading,
 			text: $scope.post.text,
-			tags: $scope.post.tags.toString().split(','),
+			tags: checkEmpty($scope.post.tags),
 			category: $scope.post.category
 		};
 		$http({
@@ -74,9 +109,9 @@ app.controller('editItems', function ($scope, $http) {
 			url: '/api',
 			params: { _id: $scope.post._id },
 			data: updateEntry
-		}).then(function successCallback(response) {
+		}).then(function (response) {
 	    console.log('Success updating DB!')
-	  }, function errorCallback(response) {
+	  }, function (response) {
 	    console.log(response);
 	  });
 	}

@@ -12,15 +12,23 @@
 		</nav>
 	</header>
 	<div class="container" ng-controller="listItems">
+		<div class="posts-sort">
+			<h3>Sort by:</h3>
+			<button ng-click="sortBy('heading')">Heading</button>
+			<button ng-click="sortBy('date')">Date</button>
+			<button ng-click="sortBy('author')">Author</button>
+			<button ng-click="sortBy('category')">Category</button>
+		</div>
 		<div class="posts-container" ng-repeat="post in posts">
 			<div class="post">
 				<h2>{{post.heading}}</h2>
 				<em>{{post.date}} - {{post.author}}</em>
 				<p>{{post.text}}</p>
 				<div class="post-tags">
-					<span ng-repeat="tag in post.tags"><a href="">{{tag}}</a></span>
+					Tags:
+					<span ng-repeat="tag in post.tags"><button ng-click="listByTag(tag)">{{tag}}</button></span>
 				</div>
-				<div class="post-category">{{post.category}}</div>
+				<div class="post-category">Category: {{post.category}}</div>
 			</div>
 		</div>
 	</div>
