@@ -2,6 +2,8 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+	<link rel="stylesheet" href="styles/style.css">
 	<title>Learning MEAN</title>
 </head>
 <body ng-app="app" ng-controller="listItems">
@@ -21,19 +23,18 @@
 				<th>Last updated</th>
 				<th>Tags</th>
 				<th>Category</th>
-				<th>Text</th>
 				<th></th>
 			</tr>
 			<form id="editForm">
-			<tr ng-repeat="post in posts" ng-controller="updateItems">
+			<tr ng-repeat="post in posts" ng-controller="updateItems" class="edit-posts">
 				<td><input type="text" value={{post.heading}} ng-model="post.heading"></td>
-				<td><input type="text" value={{post.author}} name="post.author"></td>
+				<td><input type="text" value={{post.author}} ng-model="post.author"></td>
 				<td><input type="hidden" value={{post.date}} ng-model="post.date">{{post.date}}</td>
 				<td><input type="hidden" value={{post.dateUpdated}} ng-model="post.dateUpdated">{{post.dateUpdated}}</td>
 				<td><input type="text" value={{post.tags}} ng-model="post.tags"></td>
 				<td><input type="text" value={{post.category}} ng-model="post.category"></td>
-				<td><textarea ng-model="post.text">{{post.text}}</textarea></td>
-				<td><input type="hidden" value={{post._id}} ng-model="post._id"><input type="submit" ng-click="saveItem()" value="Save"></td>
+				<td class="edit-text"><textarea ng-model="post.text">{{post.text}}</textarea></td>
+				<td class="white-bg"><input type="hidden" value={{post._id}} ng-model="post._id"><button ng-click="saveItem()" class="positive">Save</button></td>
 			</tr>
 			</form>
 		</table>
@@ -43,15 +44,15 @@
 		<table>
 			<tr>
 				<th>Heading</th>
-				<th>Delete</th>
+				<th></th>
 			</tr>
 			<tr ng-repeat="post in posts">
 				<td>{{post.heading}}<input type="hidden" value={{post._id}} ng-model="id"></td>
-				<td><input type="submit" ng-click="delItem(post._id)" value="Delete"></td>
+				<td class="white-bg"><button ng-click="delItem(post._id)" class="negative">Delete</button></td>
 			</tr>
 		</table>
 	</div>
-	<div class="container" ng-controller="addItems">
+	<div class="container add-post" ng-controller="addItems">
 		<h2>Add Posts</h2>
 		<form id="addForm">
 			<label>Heading:</label>
@@ -65,10 +66,11 @@
 			<label>Category:</label>
 			<input type="text" ng-model="category">
 			<input type="hidden" ng-model="date">
-			<input type="submit" ng-click="newItem()">
+			<button ng-click="newItem()" class="positive">Add post</button>
 		</form>
 	</div>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.2/angular-sanitize.js"></script>
 <script src="app/app.js"></script>
 </body>
 </html>

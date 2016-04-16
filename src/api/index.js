@@ -17,6 +17,14 @@ router.get('/', function (req, res, next) {
 				res.json(posts);
 			}
 		});
+	} else if (req.query.cat != undefined) {
+		crud.find({	category: { $in: [req.query.cat] }	}, function(err, posts){
+			if(err) {
+				return console.error('Error: ' + err);
+			} else {
+				res.json(posts);
+			}
+		});
 	} else {
 		next();
 	}

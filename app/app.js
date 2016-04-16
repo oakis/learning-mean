@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('app', []);
+var app = angular.module('app', ['ngSanitize']);
 
 function checkEmpty (data) {
 	if (!Array.isArray(data))
@@ -9,7 +9,6 @@ function checkEmpty (data) {
 }
 
 app.controller('listItems', function ($scope, $http) {
-	$scope.posts = [];
 
 	$http({
 		method: 'GET',
@@ -23,7 +22,18 @@ app.controller('listItems', function ($scope, $http) {
   $scope.listByTag = function (tag) {
   	$http({
 			method: 'GET',
-			url: '/api/?tag='+tag
+			url: '/api?tag='+tag
+		}).then(function (response) {
+	    $scope.posts = response.data;
+	  }, function (response) {
+	    console.log(response);
+	  });
+  }
+  // List by CATEGORY
+  $scope.listByCat = function (cat) {
+  	$http({
+			method: 'GET',
+			url: '/api?cat='+cat
 		}).then(function (response) {
 	    $scope.posts = response.data;
 	  }, function (response) {
@@ -34,7 +44,7 @@ app.controller('listItems', function ($scope, $http) {
   $scope.sortBy = function (id) {
   	$http({
 			method: 'GET',
-			url: '/api/?sortBy='+id
+			url: '/api?sortBy='+id
 		}).then(function (response) {
 	    $scope.posts = response.data;
 	  }, function (response) {
@@ -45,7 +55,7 @@ app.controller('listItems', function ($scope, $http) {
   $scope.postSearch = function (id) {
   	$http({
 			method: 'GET',
-			url: '/api/?search='+id
+			url: '/api?search='+id
 		}).then(function (response) {
 	    $scope.posts = response.data;
 	  }, function (response) {
@@ -73,7 +83,7 @@ app.controller('addItems', function ($scope, $http) {
 		}).then(function (response) {
 	    console.log('Success adding to DB!')
 	    alert('Success!');
-	    $scope.posts = response.data;
+	    $scope.posts.push(response.data);
 	  }, function (response) {
 	    console.log(response);
 	  });
@@ -93,6 +103,11 @@ app.controller('delItems', function ($scope, $http) {
 				params: { _id: id }
 			}).then(function (response) {
 		    console.log('Success deleting from DB!')
+		    for (var post of $scope.posts) {
+		    	if (post._id === response.config.params._id) {
+		    		$scope.posts.splice($scope.posts.indexOf({_id: post._id}),1)
+		    	}
+		    }
 		  }, function (response) {
 		    console.log(response);
 		  });
