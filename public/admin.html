@@ -16,40 +16,56 @@
 	<div class="container">
 		<h2>Edit Posts</h2>
 		<table>
-			<tr>
-				<th>Heading</th>
-				<th>Author</th>
-				<th>Date</th>
-				<th>Last updated</th>
-				<th>Tags</th>
-				<th>Category</th>
-				<th></th>
-			</tr>
+			<thead>
+				<tr>
+					<th>Heading</th>
+					<th>Author</th>
+					<th>Date</th>
+					<th>Last updated</th>
+					<th>Tags</th>
+					<th>Category</th>
+					<th></th>
+				</tr>
+			</thead>
 			<form id="editForm">
-			<tr ng-repeat="post in posts" ng-controller="updateItems" class="edit-posts">
-				<td><input type="text" value={{post.heading}} ng-model="post.heading"></td>
-				<td><input type="text" value={{post.author}} ng-model="post.author"></td>
-				<td><input type="hidden" value={{post.date}} ng-model="post.date">{{post.date}}</td>
-				<td><input type="hidden" value={{post.dateUpdated}} ng-model="post.dateUpdated">{{post.dateUpdated}}</td>
-				<td><input type="text" value={{post.tags}} ng-model="post.tags"></td>
-				<td><input type="text" value={{post.category}} ng-model="post.category"></td>
-				<td class="edit-text"><textarea ng-model="post.text">{{post.text}}</textarea></td>
-				<td class="white-bg"><input type="hidden" value={{post._id}} ng-model="post._id"><button ng-click="saveItem()" class="positive">Save</button></td>
-			</tr>
+			<tbody ng-repeat="edit in editarr" ng-controller="updateItems" class="edit-posts">
+				<tr>
+					<td><input type="text" value={{edit.heading}} ng-model="edit.heading"></td>
+					<td><input type="text" value={{edit.author}} ng-model="edit.author"></td>
+					<td><input type="hidden" value={{edit.date}} ng-model="edit.date">{{edit.date}}</td>
+					<td><input type="hidden" value={{edit.dateUpdated}} ng-model="edit.dateUpdated">{{edit.dateUpdated}}</td>
+					<td><input type="text" value={{edit.tags}} ng-model="edit.tags"></td>
+					<td><input type="text" value={{edit.category}} ng-model="edit.category"></td>
+				</tr>
+				<tr>
+					<th colspan="6" class="post-text-th"><span class="post-text-th">Message</span></th>
+				</tr>
+				<tr>
+					<td colspan="6"><textarea ng-model="edit.text">{{edit.text}}</textarea>
+					<input type="hidden" value={{edit._id}} ng-model="edit._id"><button ng-click="saveItem()" class="positive">Save</button>
+					</td>
+				</tr>
+			</tbody>
 			</form>
 		</table>
 	</div>
-	<div class="container" ng-controller="delItems">
-		<h2>Delete Posts</h2>
+	<div class="container" ng-controller="adminItems">
+		<h2>Edit/Delete Posts</h2>
 		<table>
-			<tr>
-				<th>Heading</th>
-				<th></th>
-			</tr>
-			<tr ng-repeat="post in posts">
-				<td>{{post.heading}}<input type="hidden" value={{post._id}} ng-model="id"></td>
-				<td class="white-bg"><button ng-click="delItem(post._id)" class="negative">Delete</button></td>
-			</tr>
+			<thead>
+				<tr>
+					<th>Heading</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody ng-repeat="post in posts">
+				<tr>
+					<td>{{post.heading}}<input type="hidden" value={{post._id}} ng-model="id"></td>
+					<td class="white-bg"><button ng-click="goEdit(post._id)">Edit</button></td>
+					<td class="white-bg"><button ng-click="delItem(post._id)" class="negative">Delete</button></td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
 	<div class="container add-post" ng-controller="addItems">

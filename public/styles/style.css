@@ -27,13 +27,13 @@ th {
 	border: 0;
 }
 
-tr:nth-child(odd) {
+tbody:nth-child(odd) {
 	background: #0084AB;
 }
-tr:nth-child(even) {
+tbody:nth-child(even) {
 	background: #0A99C3;
 }
-tr:first-child {
+tbody:first-child {
 	background: #fff;
 }
 
@@ -63,6 +63,11 @@ textarea {
 
 input {
 	width: 150px;
+}
+
+textarea {
+	width: 89%;
+	min-height: 180px; 
 }
 
 header {
@@ -97,10 +102,6 @@ header nav a {
 .add-post textarea {
 	display: block;
 }
-
-/*.edit-posts td:last-child {
-	width: 100%;
-}*/
 
 .posts-top {
 	display: flex;
@@ -150,6 +151,11 @@ header nav a {
 
 .post-tags {
 
+}
+
+.post-text-th {
+	text-align: left;
+	margin-left: 10px;
 }
 
 .post-tags button {

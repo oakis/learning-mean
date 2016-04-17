@@ -10,6 +10,8 @@ function checkEmpty (data) {
 
 app.controller('listItems', function ($scope, $http) {
 
+	$scope.editarr = [];
+
 	$http({
 		method: 'GET',
 		url: '/api'
@@ -92,8 +94,9 @@ app.controller('addItems', function ($scope, $http) {
 
 });
 
-app.controller('delItems', function ($scope, $http) {
+app.controller('adminItems', function ($scope, $http) {
 
+	// Delete item by ID
 	$scope.delItem = function (id) {
 		console.log('delItem: '+id)
 		if (window.confirm('Are you sure about deleting this post? (ID: '+id+')')) {
@@ -113,6 +116,20 @@ app.controller('delItems', function ($scope, $http) {
 		  });
 		}
 	}
+	// Send to edit page
+	$scope.goEdit = function (id) {
+		$http({
+			method: 'get',
+			url: '/api?post='+id
+		}).then(function (response) {
+	    console.log('Editing post with _id:' + id)
+	    $scope.editarr.splice(0,1);
+	    $scope.editarr.push(response.data[0]);
+	    console.log($scope.editarr)
+	  }, function (response) {
+	    console.log(response);
+	  });
+	}
 
 });
 
@@ -120,21 +137,22 @@ app.controller('updateItems', function ($scope, $http) {
 
 	$scope.saveItem = function () {
 		var updateEntry = {
-			author: $scope.post.author,
-			date: $scope.post.date,
+			author: $scope.edit.author,
+			date: $scope.edit.date,
 			dateUpdated: '',
-			heading: $scope.post.heading,
-			text: $scope.post.text,
-			tags: checkEmpty($scope.post.tags),
-			category: $scope.post.category
+			heading: $scope.edit.heading,
+			text: $scope.edit.text,
+			tags: checkEmpty($scope.edit.tags),
+			category: $scope.edit.category
 		};
 		$http({
 			method: 'put',
 			url: '/api',
-			params: { _id: $scope.post._id },
+			params: { _id: $scope.edit._id },
 			data: updateEntry
 		}).then(function (response) {
 	    console.log('Success updating DB!')
+	    $scope.editarr.splice(0,1);
 	  }, function (response) {
 	    console.log(response);
 	  });

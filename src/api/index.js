@@ -62,7 +62,21 @@ router.get('/', function (req, res, next) {
 	}
 });
 
-// List items
+router.get('/', function (req, res, next) {
+	if (req.query.post != undefined) {
+		crud.find({	_id: [req.query.post] }, function(err, post){
+			if(err) {
+				return console.error('Error: ' + err);
+			} else {
+				res.json(post);
+			}
+		});
+	} else {
+		next();
+	}
+});
+
+// List all items
 router.get('/', function (req, res, next) {
 	crud.find(function(err, posts){
 		if(err) {
